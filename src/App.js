@@ -3,14 +3,12 @@ import "./styles/App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import jsonData from "./data.json";
-import { useReactToPrint } from "react-to-print";
 import Form from "./components/Form";
 import Resume from "./components/Resume";
 import html2pdf from "html2pdf.js";
 
 const App = () => {
   const [data, setData] = useState();
-  const [isPrinting, setIsPrinting] = useState(false);
   const componentRef = useRef(null);
   const resumeRef = useRef(null);
   const [preset] = useState([
@@ -30,16 +28,7 @@ const App = () => {
     setData(jsonData);
   }, []);
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: "Resume",
-    onBeforeGetContent: () => {
-      setIsPrinting(true);
-      return Promise.resolve();
-    },
-    onAfterPrint: () => setIsPrinting(false),
-    removeAfterPrint: true,
-  });
+
 
   const handleDownload = async () => {
     const element = resumeRef.current;

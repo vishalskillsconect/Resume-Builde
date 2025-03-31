@@ -1,5 +1,6 @@
-// @import './color-grey.scss';
-@import "./color-seagreen.scss";
+@use "sass:color";
+// @use './color-grey';
+@use './color-seagreen' as *;
 // @import './color-blue.scss';
 // @import './color-indigo.scss';
 
@@ -97,7 +98,7 @@
       transition: color 0.3s ease;
 
       &:hover {
-        color: darken($left-link-color, 15%);
+        color: color.adjust($left-link-color, $lightness: -15%);
       }
     }
 
@@ -243,7 +244,7 @@
       transition: color 0.3s ease;
 
       &:hover {
-        color: darken($right-link-color, 15%);
+        color: color.adjust($right-link-color, $lightness: -15%);
       }
     }
 

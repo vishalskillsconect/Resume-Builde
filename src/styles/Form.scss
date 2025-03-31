@@ -1,4 +1,4 @@
-@import "./reusable.scss";
+@use "./reusable" as *;
 
 .form-container {
   width: 100%;

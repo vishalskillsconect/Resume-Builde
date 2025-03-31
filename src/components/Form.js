@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Files from "react-files";
 
 import "../styles/Form.scss";
-import { Link } from "react-router-dom";
 
 const Form = ({ data, setData, preset, setColor }) => {
   let { name, photoUrl, location, phone, email, linkedin, github } =
