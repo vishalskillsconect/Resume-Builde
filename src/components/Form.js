@@ -173,6 +173,9 @@ const Form = ({ data, setData, preset, setColor }) => {
   return (
     <div className="form-container">
       <div className="my-3">
+        <div className="logo-container" style={{ marginTop: '-20px', marginBottom: '10px' }}>
+          <img src="/images/logo.svg" alt="Logo" style={{ height: '65px', width: 'auto' }} />
+        </div>
         <div className="colorSchemeContainer">
           <p className="color-scheme-title">Select color scheme:</p>
           <div className="colorContainer">
