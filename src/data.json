@@ -1,7 +1,7 @@
 {
 	"contact": {
 	  "name": "Vishal Dubey",
-	  "photoUrl": "blob:http://localhost:3000/d95dd42b-e335-4345-8010-4aab5c33072c",
+	  "photoUrl": "/images/default.jpg",
 	  "location": "Thane, Maharashtra, India",
 	  "phone": "+91 9987391388",
 	  "email": "dubeyvishal917@gmail.com",

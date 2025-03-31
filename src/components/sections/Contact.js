@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Default from '../../images/default.jpg';
 
 const Contact = ({ data, color }) => {
   const { name, photoUrl, location, phone, email, linkedin, github } = data.contact;
@@ -7,7 +6,7 @@ const Contact = ({ data, color }) => {
   return (
     <Fragment>
       <div className='photo-container'>
-        <img src={photoUrl.trim().length !== 0 ? photoUrl : Default} alt='' />
+        <img src={photoUrl || '/images/default.jpg'} alt='' />
       </div>
       {name && (
         <div className='name' style={{ color: `${color.primary}` }}>
