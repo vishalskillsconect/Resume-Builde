@@ -8,7 +8,7 @@ const Interests = ({ data, color }) => {
                 <span className='material-icons' style={{ color: `${color.primary}` }}>
                     
         </span>
-        Interests
+        INTERESTS           
       </p>
             <hr style={{ borderColor: `${color.primary}` }} />
             <div className='skills-container'>

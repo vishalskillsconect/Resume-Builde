@@ -7,7 +7,7 @@ const Contact = ({ data, color }) => {
     <Fragment>
       <div className='photo-container'>
         <img src={photoUrl || '/images/default.jpg'} alt='' />
-      </div>
+      </div>      
       {name && (
         <div className='name' style={{ color: `${color.primary}` }}>
           {name}

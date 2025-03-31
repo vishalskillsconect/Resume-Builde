@@ -9,7 +9,7 @@ const References = ({ data, color }) => {
         <span className='material-icons' style={{ color: `${color.primary}` }}>
           
         </span>
-        Reference
+        REFERENCES
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       {references.map((item, index) => (

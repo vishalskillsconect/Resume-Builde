@@ -7,7 +7,7 @@ const Experience = ({ data, color }) => {
       <p className='heading' style={{ color: `${color.primary}` }}>
         <span className='material-icons' style={{ color: `${color.primary}` }}>
         </span>
-        Experience
+        EXPERIENCE
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       {experience.map((item, index) => (

@@ -9,7 +9,7 @@ const Objective = ({ data, color }) => {
         <span className='material-icons' style={{ color: `${color.primary}` }}>
           
         </span>
-        Objective
+        BIO
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       <div className='item'>{objective}</div>

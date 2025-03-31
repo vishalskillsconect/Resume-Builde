@@ -239,7 +239,7 @@ const Form = ({ data, setData, preset, setColor }) => {
       <div className="form">
         <div className="section">
           <div className="heading">
-            <span>Personal Information</span>
+            <span>PERSONAL INFORMATION</span>
             <button className="done-btn" aria-label="Done"></button>
           </div>
           <p className="label">Name</p>
@@ -250,42 +250,42 @@ const Form = ({ data, setData, preset, setColor }) => {
             value={name}
             onChange={handleContactChange}
           />
-          <p className="label">Photo URL</p>
+          <p className="label">PHOTO URL</p>
           <input
             type="text"
             name="photoUrl"
             value={photoUrl}
             onChange={handleContactChange}
           />
-          <p className="label">Location</p>
+          <p className="label">LOCATION</p>
           <input
             type="text"
             name="location"
             value={location}
             onChange={handleContactChange}
           />
-          <p className="label">Phone</p>
+          <p className="label">PHONE</p>
           <input
             type="text"
             name="phone"
             value={phone}
             onChange={handleContactChange}
           />
-          <p className="label">Email</p>
+          <p className="label">EMAIL</p>
           <input
             type="text"
             name="email"
             value={email}
             onChange={handleContactChange}
           />
-          <p className="label">LinkedIn</p>
+          <p className="label">LINKEDIN</p>
           <input
             type="text"
             name="linkedin"
             value={linkedin}
             onChange={handleContactChange}
           />
-          <p className="label">Github</p>
+          <p className="label">GITHUB</p>
           <input
             type="text"
             name="github"
@@ -296,7 +296,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Skills</span>
+            <span>SKILLS</span>
             <button
               className="done-btn"
               onClick={handleSkillsUpdate}
@@ -314,7 +314,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Tools & Technologies</span>
+            <span>TOOLS</span>
             <button
               className="done-btn"
               onClick={handleToolsUpdate}
@@ -332,7 +332,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Languages</span>
+            <span>LANGUAGES</span>
             <button
               className="add-btn"
               onClick={() => addRow(languages, { name: "", level: "5" })}
@@ -370,7 +370,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Interests</span>
+            <span>INTERESTS</span>
             <button
               className="done-btn"
               onClick={handleInterestsUpdate}
@@ -388,7 +388,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>References</span>
+            <span>REFERENCES</span>
             <button
               className="add-btn"
               onClick={() =>
@@ -449,7 +449,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Objective</span>
+          <span>OBJECTIVE</span>
           </div>
           <textarea
             name="objective"
@@ -462,7 +462,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Education</span>
+            <span>EDUCATION</span>
             <button
               className="add-btn"
               onClick={() =>
@@ -538,7 +538,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Experience</span>
+            <span>EXPERIENCE</span>
             <button
               className="add-btn"
               onClick={() =>
@@ -604,7 +604,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Certifications</span>
+            <span>CERTIFICATIONS</span>
             <button
               className="add-btn"
               onClick={() =>
@@ -681,7 +681,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Projects</span>
+            <span>PROJECTS</span>
             <button
               className="add-btn"
               onClick={() =>
@@ -740,7 +740,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Workshops</span>
+            <span>WORKSHOPS</span>
             <button
               className="add-btn"
               onClick={() => addRow(workshops, { name: "", description: "" })}
@@ -781,7 +781,7 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-            <span>Additional Activities</span>
+              <span>ADDITIONAL ACTIVITIES</span>
             <button
               className="add-btn"
               onClick={() => addRow(activities, { title: "" })}

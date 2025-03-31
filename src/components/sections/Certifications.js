@@ -7,7 +7,7 @@ const Certifications = ({ data, color }) => {
       <p className='heading' style={{ color: `${color.primary}` }}>
         <span className='material-icons' style={{ color: `${color.primary}` }}>
         </span>
-        Certifications
+        CERTIFICATIONS
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       {certifications.map((item, index) => (

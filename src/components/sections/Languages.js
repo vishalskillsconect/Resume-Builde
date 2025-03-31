@@ -10,7 +10,7 @@ const Languages = ({ data, color }) => {
         <span className='material-icons' style={{ color: `${color.primary}` }}>
           
         </span>
-        Languages
+        LANGUAGES
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       <div className='languages-container'>

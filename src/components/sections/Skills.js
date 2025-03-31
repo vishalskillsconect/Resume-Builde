@@ -8,7 +8,7 @@ const Skills = ({ data, color }) => {
         {/* <span className='fas fa-puzzle-piece' /> */}
         <span className='material-icons' style={{ color: `${color.primary}` }}>
      </span>
-        Skills
+        SKILLS
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       <div className='skills-container'>

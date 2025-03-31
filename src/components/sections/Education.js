@@ -7,8 +7,8 @@ const Education = ({ data, color }) => {
       <p className='heading' style={{ color: `${color.primary}` }}>
         <span className='material-icons' style={{ color: `${color.primary}` }}>
           
-        </span>
-        Education
+        </span> 
+        EDUCATION
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       {education.map((item, index) => (

@@ -9,7 +9,7 @@ const Projects = ({ data, color }) => {
         <span className='material-icons' style={{ color: `${color.primary}` }}>
           
         </span>
-        Projects
+        PROJECTS
       </p>
       <hr style={{ borderColor: `${color.primary}` }} />
       {projects.map((item, index) => (

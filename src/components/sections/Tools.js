@@ -8,7 +8,7 @@ const Tools = ({ data, color }) => {
                 <span className='material-icons' style={{ color: `${color.primary}` }}>
                     
         </span>
-        Tools
+            TOOLS
       </p>
             <hr style={{ borderColor: `${color.primary}` }} />
             <div className='skills-container'>

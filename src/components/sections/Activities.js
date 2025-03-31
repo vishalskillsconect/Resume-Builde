@@ -8,7 +8,7 @@ const Activities = ({ data, color }) => {
                 <span className='material-icons' style={{ color: `${color.primary}` }}>
                     
         </span>
-        Additional Activities
+            ADDITIONAL ACTIVITIES
       </p>
             <hr style={{ borderColor: `${color.primary}` }} />
             {activities.map((item, index) => (
