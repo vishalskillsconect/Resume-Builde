@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import LeftContent from './LeftContent';
-import RightContent from './RightContent';
-import '../styles/Resume.scss';
+import React from "react";
+import LeftContent from "./LeftContent";
+import RightContent from "./RightContent";
+import "../styles/Resume.scss";
 
-class Resume extends Component {
-  render() {
-    return (
-      <div className='resume' id='resume'>
-        <LeftContent data={this.props.data} color={this.props.color} />
-        <RightContent data={this.props.data} color={this.props.color} />
-      </div>
-    );
-  }
-}
+const Resume = React.forwardRef((props, ref) => {
+  const { data, color } = props;
+  return (
+    <div className="resume" ref={ref}>
+      <LeftContent data={data} color={color} />
+      <RightContent data={data} color={color} />
+    </div>
+  );
+});
+
+Resume.displayName = "Resume";
 
 export default Resume;
