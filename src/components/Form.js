@@ -21,6 +21,52 @@ const Form = ({ data, setData, preset, setColor }) => {
   const [selectedFont, setSelectedFont] = useState('Arial');
   const fonts = ['Arial', 'Calibri', 'Times New Roman'];
 
+  // API key for Gemini from environment variable
+  const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+
+  // Function to generate bio using AI
+  const generateBioWithAI = async () => {
+    if (!skills) {
+      alert("Please add some skills first before generating a bio");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `Generate a professional and concise bio (2-3 sentences) for a resume. Include these skills: ${skills}. Make it sound natural and highlight expertise without being too verbose.`
+              }]
+            }]
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`HTTP error! status: ${response.status}, details: ${JSON.stringify(errorData)}`);
+      }
+
+      const result = await response.json();
+      if (!result.candidates || !result.candidates[0]?.content?.parts?.[0]?.text) {
+        throw new Error('Invalid response format from Gemini API');
+      }
+
+      const generatedBio = result.candidates[0].content.parts[0].text;
+      setData({ ...data, objective: generatedBio });
+    } catch (error) {
+      console.error("Error generating bio:", error);
+      alert(`Failed to generate bio: ${error.message}`);
+    }
+  };
+
   // Handle JSON file upload
   const handleFileUpload = (files) => {
     var fileReader = new FileReader();
@@ -473,7 +519,14 @@ const Form = ({ data, setData, preset, setColor }) => {
 
         <div className="section">
           <div className="heading">
-          <span>OBJECTIVE</span>
+            <span>BIO</span>
+            <button
+              className="generate-bio-btn"
+              onClick={generateBioWithAI}
+              title="Generate bio using AI based on your skills"
+            >
+              <i className="fa-solid fa-robot"></i>Generate with AI
+            </button>
           </div>
           <textarea
             name="objective"
