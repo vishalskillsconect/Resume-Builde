@@ -64,18 +64,25 @@
         aspect-ratio: 1;
         border-radius: 12px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         border: 2px solid transparent;
 
         &:hover {
-          transform: translateY(-2px);
+          transform: translateY(-2px) scale(1.1);
           box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
+        &:active {
+          transform: scale(0.95);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         &.active {
+          animation: popEffect 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           border-color: #00b09b;
-          transform: scale(1.05);
+          transform: scale(1.15);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
       }
     }
@@ -447,5 +454,17 @@
     .projects > button {
       margin: 0 0 15px 2px;
     }
+  }
+}
+
+@keyframes popEffect {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1.15);
   }
 }

@@ -17,6 +17,8 @@ const Form = ({ data, setData, preset, setColor }) => {
   let workshops = data.workshops;
   let activities = data.activities;
 
+  const [selectedColor, setSelectedColor] = useState(preset[0]);
+
   // Handle JSON file upload
   const handleFileUpload = (files) => {
     var fileReader = new FileReader();
@@ -168,6 +170,7 @@ const Form = ({ data, setData, preset, setColor }) => {
       background: item.background,
       skills: item.skills,
     });
+    setSelectedColor(item);
   };
 
   return (
@@ -182,7 +185,7 @@ const Form = ({ data, setData, preset, setColor }) => {
             {preset.map((item, key) => (
               <div
                 key={key}
-                className="colorScheme"
+                className={`colorScheme ${selectedColor === item ? 'active' : ''}`}
                 onClick={() => changeColorScheme(item)}
                 style={{ backgroundColor: `${item.primary}` }}
               ></div>
