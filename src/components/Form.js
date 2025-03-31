@@ -169,7 +169,6 @@ const Form = ({ data, setData, preset, setColor }) => {
   return (
     <div className='form-container'>
       <div className='my-2'>
-        <button className='btn btn-light'><Link to='/'>Back to Home Page</Link></button>
       </div>
       <div className='colorSchemeContainer'>
         <p>Select color scheme: </p>

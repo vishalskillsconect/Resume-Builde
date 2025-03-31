@@ -38,6 +38,13 @@ html {
   height: fit-content;
   background: white;
 }
+@media print {
+	/* Show all elements on print */
+	.print-content * {
+	  visibility: visible !important;
+	  display: block !important; /* Override display: none */
+	}
+  }
 
 @media print {
   .print-content {
