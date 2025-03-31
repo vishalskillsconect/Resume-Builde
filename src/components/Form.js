@@ -18,6 +18,8 @@ const Form = ({ data, setData, preset, setColor }) => {
   let activities = data.activities;
 
   const [selectedColor, setSelectedColor] = useState(preset[0]);
+  const [selectedFont, setSelectedFont] = useState('Arial');
+  const fonts = ['Arial', 'Calibri', 'Times New Roman'];
 
   // Handle JSON file upload
   const handleFileUpload = (files) => {
@@ -173,6 +175,12 @@ const Form = ({ data, setData, preset, setColor }) => {
     setSelectedColor(item);
   };
 
+  // Handle font change
+  const changeFontFamily = (font) => {
+    document.documentElement.style.setProperty('--resume-font', font);
+    setSelectedFont(font);
+  };
+
   return (
     <div className="form-container">
       <div className="my-3">
@@ -189,6 +197,22 @@ const Form = ({ data, setData, preset, setColor }) => {
                 onClick={() => changeColorScheme(item)}
                 style={{ backgroundColor: `${item.primary}` }}
               ></div>
+            ))}
+          </div>
+        </div>
+
+        <div className="fontSchemeContainer">
+          <p className="font-scheme-title">Select font family:</p>
+          <div className="fontContainer">
+            {fonts.map((font, key) => (
+              <button
+                key={key}
+                className={`fontScheme ${selectedFont === font ? 'active' : ''}`}
+                onClick={() => changeFontFamily(font)}
+                style={{ fontFamily: font }}
+              >
+                {font}
+              </button>
             ))}
           </div>
         </div>

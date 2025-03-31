@@ -10,7 +10,7 @@
   min-height: 297mm;
   width: 210mm;
   display: flex;
-  font-family: "Roboto", Helvetica, sans-serif;
+  font-family: var(--resume-font), sans-serif;
   background: white;
   box-sizing: border-box;
 
@@ -327,9 +327,6 @@
         &:last-child {
           border-bottom: none;
         }
-        &:nth-child(odd) {
-          // background-color: #fbfbfb;
-        }
 
         .left-column {
           width: 250px;
@@ -398,10 +395,6 @@
           border-bottom: none;
         }
 
-        &:nth-child(odd) {
-          // background-color: #fbfbfb;
-        }
-
         .left-column {
           width: 250px;
           padding: 0;
@@ -455,10 +448,6 @@
 
         &:last-child {
           border-bottom: none;
-        }
-
-        &:nth-child(odd) {
-          // background-color: #fbfbfb;
         }
 
         .left-column {
@@ -527,10 +516,6 @@
           border-bottom: none;
         }
 
-        &:nth-child(odd) {
-          // background-color: #fbfbfb;
-        }
-
         li {
           margin: 0 0 0 10px;
           .title {
@@ -586,10 +571,6 @@
 
         &:last-child {
           border-bottom: none;
-        }
-
-        &:nth-child(odd) {
-          // background-color: #fbfbfb;
         }
 
         .left-column {
