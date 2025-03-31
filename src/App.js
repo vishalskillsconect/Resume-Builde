@@ -6,11 +6,13 @@ import jsonData from "./data.json";
 import { useReactToPrint } from "react-to-print";
 import Form from "./components/Form";
 import Resume from "./components/Resume";
+import html2pdf from "html2pdf.js";
 
 const App = () => {
   const [data, setData] = useState();
   const [isPrinting, setIsPrinting] = useState(false);
   const componentRef = useRef(null);
+  const resumeRef = useRef(null);
   const [preset] = useState([
     { primary: "#009688", background: "#ebf5f4", skills: "#e5f4f3" },
     { primary: "#2196f3", background: "#e8f4fe", skills: "#e2f2ff" },
@@ -39,6 +41,86 @@ const App = () => {
     removeAfterPrint: true,
   });
 
+  const handleDownload = async () => {
+    const element = resumeRef.current;
+    // Get user's name from data and format it for filename, with fallback
+    const userName = data?.contact?.name
+      ? data.contact.name.toLowerCase().replace(/\s+/g, "_")
+      : "resume";
+    const fileName = `${userName}_resume.pdf`;
+
+    const opt = {
+      margin: [0, 0, 0, 0],
+      filename: fileName,
+      image: { type: "jpeg", quality: 1 },
+      html2canvas: {
+        scale: 4,
+        useCORS: true,
+        letterRendering: true,
+        scrollY: -window.scrollY,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight,
+        logging: true,
+        onclone: (clonedDoc) => {
+          const clonedElement = clonedDoc.querySelector(".print-content");
+          if (clonedElement) {
+            // Apply styles to ensure content fits properly
+            clonedElement.style.width = "210mm";
+            clonedElement.style.height = "auto";
+            clonedElement.style.minHeight = "297mm";
+            clonedElement.style.margin = "0";
+            clonedElement.style.padding = "0";
+            clonedElement.style.overflow = "visible";
+            clonedElement.style.position = "relative";
+            clonedElement.style.pageBreakInside = "avoid";
+            clonedElement.style.breakInside = "avoid";
+
+            // Apply styles to all child elements
+            const applyStyles = (element) => {
+              element.style.pageBreakInside = "avoid";
+              element.style.breakInside = "avoid";
+              element.style.transform = "none";
+              element.style.position = "relative";
+              element.style.overflow = "visible";
+              Array.from(element.children).forEach(applyStyles);
+            };
+            applyStyles(clonedElement);
+          }
+        },
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait",
+        compress: true,
+        precision: 16,
+        hotfixes: ["px_scaling"],
+      },
+    };
+
+    // Add a class to the body during PDF generation
+    document.body.classList.add("generating-pdf");
+
+    try {
+      const pdf = await html2pdf()
+        .set(opt)
+        .from(element)
+        .toPdf()
+        .output("bloburl");
+      const link = document.createElement("a");
+      link.href = pdf;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(pdf);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      document.body.classList.remove("generating-pdf");
+    }
+  };
+
   if (!data) return null;
 
   return (
@@ -52,10 +134,12 @@ const App = () => {
         />
       </div>
       <div className="right">
-        <Resume ref={componentRef} data={data} color={color} />
+        <div className="print-content" ref={resumeRef}>
+          <Resume ref={componentRef} data={data} color={color} />
+        </div>
       </div>
-      <button className="printBtn" onClick={handlePrint} disabled={isPrinting}>
-        {isPrinting ? "Preparing..." : "Download / Print"}
+      <button className="printBtn" onClick={handleDownload}>
+        Download PDF
       </button>
     </div>
   );
