@@ -782,6 +782,12 @@ const Form = ({ data, setData, preset, setColor }) => {
         <div className="section">
           <div className="heading">
             <span>Additional Activities</span>
+            <button
+              className="add-btn"
+              onClick={() => addRow(activities, { title: "" })}
+            >
+              Add
+            </button>
           </div>
           {activities.map((item, index) => (
             <div className="container-fluid" key={index}>
@@ -804,12 +810,6 @@ const Form = ({ data, setData, preset, setColor }) => {
               </div>
             </div>
           ))}
-          <button
-            className="add-btn"
-            onClick={() => addRow(activities, { title: "" })}
-          >
-            Add
-          </button>
         </div>
       </div>
     </div>
