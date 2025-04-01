@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Files from "react-files";
+import ATSScore from "./ATSScore";
 
 import "../styles/Form.scss";
 
@@ -889,6 +890,8 @@ const Form = ({ data, setData, preset, setColor }) => {
           ))}
         </div>
       </div>
+
+      <ATSScore resumeData={data} />
     </div>
   );
 };
