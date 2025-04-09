@@ -29,11 +29,13 @@ const App = () => {
 
   useEffect(() => {
     setData(jsonData);
-    
-    // ✅ Initialize GA4
-    ReactGA.initialize("G-TVS233N0RB");
 
-    // ✅ Track pageview on load
+    // ✅ Initialize GA4 with Debug enabled
+    ReactGA.initialize("G-TVS233N0RB", {
+      debug: true, // 👈 Required for DebugView
+    });
+
+    // ✅ Track initial page view
     ReactGA.send({ hitType: "pageview", page: window.location.pathname });
   }, []);
 
@@ -93,7 +95,7 @@ const App = () => {
     document.body.classList.add("generating-pdf");
 
     try {
-      // ✅ Track resume download event
+      // ✅ Track custom event for resume download
       ReactGA.event({
         category: "Resume",
         action: "Downloaded PDF",
