@@ -3,6 +3,8 @@ import Files from "react-files";
 import ATSScore from "./ATSScore";
 
 import "../styles/Form.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRobot } from '@fortawesome/free-solid-svg-icons';
 
 const Form = ({ data, setData, preset, setColor }) => {
   let { name, photoUrl, location, phone, email, linkedin, github } =
@@ -526,7 +528,7 @@ const Form = ({ data, setData, preset, setColor }) => {
               onClick={generateBioWithAI}
               title="Generate bio using AI based on your skills"
             >
-              <i className="fa-solid fa-robot"></i>Generate with AI
+              <FontAwesomeIcon icon={faRobot} style={{ marginLeft: '6px' }} /> Generate with AI
             </button>
           </div>
           <textarea

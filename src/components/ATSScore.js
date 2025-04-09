@@ -4,13 +4,13 @@ import '../styles/Form.scss';
 const ATSScore = ({ resumeData }) => {
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState([]);
+  const [improvements, setImprovements] = useState([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  // API key for Gemini from environment variable
   const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
 
   useEffect(() => {
-    calculateATSScore();
+    if (resumeData) calculateATSScore();
   }, [resumeData]);
 
   const analyzeWithAI = async (content) => {
@@ -19,37 +19,28 @@ const ATSScore = ({ resumeData }) => {
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{
               parts: [{
-                text: `Analyze this resume content and provide a score (0-100) and feedback based on ATS optimization. Consider:
-                1. Keyword optimization
-                2. Content structure
-                3. Professional tone
-                4. Clarity and conciseness
-                5. Action verbs usage
-                6. Quantifiable achievements
-                7. Format consistency
+                text: `Analyze this resume and provide:
+                - ATS score (0-100)
+                - Feedback (array of strings for strengths)
+                - Areas for improvement (array of strings for weaknesses)
                 
                 Content: ${content}
                 
-                Provide response in JSON format with fields: score, feedback (array of strings)`
+                Respond in JSON with fields: score, feedback, improvements.`
               }]
             }]
           })
         }
       );
 
-      if (!response.ok) {
-        throw new Error('Failed to analyze with AI');
-      }
+      if (!response.ok) throw new Error('AI analysis failed');
 
       const result = await response.json();
-      const analysis = JSON.parse(result.candidates[0].content.parts[0].text);
-      return analysis;
+      return JSON.parse(result.candidates[0].content.parts[0].text);
     } catch (error) {
       console.error('AI Analysis Error:', error);
       return null;
@@ -60,140 +51,104 @@ const ATSScore = ({ resumeData }) => {
     setIsAnalyzing(true);
     let totalScore = 0;
     const feedbackList = [];
+    const improvementList = [];
 
     // Basic checks (30% of total score)
-    // Check for contact information
     if (resumeData?.contact?.email && resumeData?.contact?.phone) {
-      totalScore += 5;
-      feedbackList.push({ type: 'success', message: 'Contact information is complete' });
-    } else {
-      feedbackList.push({ type: 'error', message: 'Missing contact information' });
-    }
-
-    // Check for professional summary
-    if (resumeData?.objective && resumeData.objective.length > 50) {
-      totalScore += 5;
-      feedbackList.push({ type: 'success', message: 'Professional summary is present' });
-    } else {
-      feedbackList.push({ type: 'error', message: 'Professional summary needs improvement' });
-    }
-
-    // Check for work experience
-    if (resumeData?.experience && resumeData.experience.length > 0) {
       totalScore += 10;
-      feedbackList.push({ type: 'success', message: 'Work experience is included' });
+      feedbackList.push('Complete contact information.');
     } else {
-      feedbackList.push({ type: 'error', message: 'No work experience listed' });
+      improvementList.push('Add missing contact details.');
     }
 
-    // Check for education
-    if (resumeData?.education && resumeData.education.length > 0) {
-      totalScore += 5;
-      feedbackList.push({ type: 'success', message: 'Education details are included' });
+    if (resumeData?.objective && resumeData.objective.length > 50) {
+      totalScore += 10;
+      feedbackList.push('Professional summary is well-structured.');
     } else {
-      feedbackList.push({ type: 'error', message: 'Education details are missing' });
+      improvementList.push('Improve your professional summary.');
     }
 
-    // Check for skills
-    if (resumeData?.skills && resumeData.skills.length > 0) {
-      totalScore += 5;
-      feedbackList.push({ type: 'success', message: 'Skills are listed' });
+    if (resumeData?.experience?.length > 0) {
+      totalScore += 15;
+      feedbackList.push('Work experience section is included.');
     } else {
-      feedbackList.push({ type: 'error', message: 'No skills listed' });
+      improvementList.push('Add work experience section.');
+    }
+
+    if (resumeData?.education?.length > 0) {
+      totalScore += 10;
+      feedbackList.push('Education details are present.');
+    } else {
+      improvementList.push('Include education details.');
+    }
+
+    if (resumeData?.skills?.length > 0) {
+      totalScore += 10;
+      feedbackList.push('Skills section is included.');
+    } else {
+      improvementList.push('Add relevant skills.');
     }
 
     // AI Analysis (70% of total score)
     try {
-      // Prepare content for AI analysis
-      const content = {
+      const content = JSON.stringify({
         objective: resumeData?.objective || '',
         experience: resumeData?.experience?.map(exp => exp.description).join('\n') || '',
         skills: resumeData?.skills?.join(', ') || '',
         education: resumeData?.education?.map(edu => edu.description).join('\n') || ''
-      };
+      });
 
-      const aiAnalysis = await analyzeWithAI(JSON.stringify(content));
-      
+      const aiAnalysis = await analyzeWithAI(content);
       if (aiAnalysis) {
-        // Scale AI score to 70% of total
         const aiScore = Math.round(aiAnalysis.score * 0.7);
         totalScore += aiScore;
-        
-        // Add AI feedback
-        aiAnalysis.feedback.forEach(feedback => {
-          feedbackList.push({ 
-            type: feedback.toLowerCase().includes('improve') ? 'error' : 'success',
-            message: feedback
-          });
-        });
+        feedbackList.push(...aiAnalysis.feedback);
+        improvementList.push(...aiAnalysis.improvements);
       }
     } catch (error) {
-      console.error('Error in AI analysis:', error);
-      feedbackList.push({ 
-        type: 'error', 
-        message: 'Unable to perform AI analysis. Please try again later.' 
-      });
+      improvementList.push('AI analysis could not be performed.');
     }
 
-    // Cap the total score at 85% to maintain realism
-    totalScore = Math.min(totalScore, 85);
-    
-    setScore(totalScore);
+    setScore(Math.min(totalScore, 100));
     setFeedback(feedbackList);
+    setImprovements(improvementList);
     setIsAnalyzing(false);
   };
 
   const getScoreColor = (score) => {
-    if (score >= 70) return '#4CAF50';
+    if (score >= 80) return '#4CAF50';
     if (score >= 50) return '#FFC107';
     return '#F44336';
   };
 
   return (
     <div className="section">
-      <div className="heading">
-        <span>ATS SCORE ANALYSIS</span>
-      </div>
+      <div className="heading"><span>ATS SCORE ANALYSIS</span></div>
       
       <div className="ats-score-container">
         <div className="ats-score-bar">
-          <div 
-            className="ats-score-progress" 
-            style={{ 
-              width: `${score}%`,
-              backgroundColor: getScoreColor(score)
-            }}
-          ></div>
+          <div className="ats-score-progress" style={{ width: `${score}%`, backgroundColor: getScoreColor(score) }}></div>
         </div>
         <div className="ats-score-value">{score}%</div>
       </div>
 
-      {isAnalyzing && (
-        <div className="ats-analyzing">
-          Analyzing your resume with AI...
-        </div>
-      )}
+      {isAnalyzing && <div className="ats-analyzing">Analyzing your resume with AI...</div>}
 
       <div className="ats-feedback">
-        <h4>Feedback:</h4>
-        <ul>
-          {feedback.map((item, index) => (
-            <li key={index} className={item.type}>
-              <span className="feedback-icon">
-                {item.type === 'success' ? '✓' : '✗'}
-              </span>
-              {item.message}
-            </li>
-          ))}
-        </ul>
+        <h4>Feedback (Strengths):</h4>
+        <ul>{feedback.map((item, index) => <li key={index} className="success">✓ {item}</li>)}</ul>
+      </div>
+
+      <div className="ats-improvements">
+        <h4>Areas for Improvement:</h4>
+        <ul>{improvements.map((item, index) => <li key={index} className="error">✗ {item}</li>)}</ul>
       </div>
 
       <div className="ats-note">
-        Note: This is an AI-powered ATS score based on comprehensive analysis of your resume content. 
-        The maximum possible score is 85% to maintain realistic expectations. Different ATS systems may have different scoring criteria.
+        <strong>Note:</strong> This AI-powered ATS score helps improve resume optimization. A score of 100% does not guarantee passing all ATS systems, as different ATS have unique criteria.
       </div>
     </div>
   );
 };
 
-export default ATSScore; 
+export default ATSScore;

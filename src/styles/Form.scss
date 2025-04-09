@@ -628,8 +628,9 @@
 .generate-bio-btn {
   display: flex;
   align-items: center;
+  justify-content: center;  /* Center items horizontally */
   gap: 8px;
-  padding: 8px 16px;
+  padding: 18px 16px;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
   border: none;
@@ -646,7 +647,8 @@
     background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   }
 
-  i {
-    font-size: 16px;
+  // Style the FontAwesome icon directly
+  svg {
+    font-size: 16px; // Adjust size as needed
   }
 }

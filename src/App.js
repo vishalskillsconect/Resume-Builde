@@ -7,6 +7,9 @@ import Form from "./components/Form";
 import Resume from "./components/Resume";
 import html2pdf from "html2pdf.js";
 
+// ✅ Import GA4
+import ReactGA from "react-ga4";
+
 const App = () => {
   const [data, setData] = useState();
   const componentRef = useRef(null);
@@ -26,13 +29,16 @@ const App = () => {
 
   useEffect(() => {
     setData(jsonData);
+    
+    // ✅ Initialize GA4
+    ReactGA.initialize("G-TVS233N0RB");
+
+    // ✅ Track pageview on load
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
   }, []);
-
-
 
   const handleDownload = async () => {
     const element = resumeRef.current;
-    // Get user's name from data and format it for filename, with fallback
     const userName = data?.contact?.name
       ? data.contact.name.toLowerCase().replace(/\s+/g, "_")
       : "resume";
@@ -53,9 +59,7 @@ const App = () => {
         onclone: (clonedDoc) => {
           const clonedElement = clonedDoc.querySelector(".print-content");
           if (clonedElement) {
-            // Apply styles to ensure content fits properly
             clonedElement.style.width = "210mm";
-            clonedElement.style.height = "auto";
             clonedElement.style.minHeight = "297mm";
             clonedElement.style.margin = "0";
             clonedElement.style.padding = "0";
@@ -64,7 +68,6 @@ const App = () => {
             clonedElement.style.pageBreakInside = "avoid";
             clonedElement.style.breakInside = "avoid";
 
-            // Apply styles to all child elements
             const applyStyles = (element) => {
               element.style.pageBreakInside = "avoid";
               element.style.breakInside = "avoid";
@@ -87,15 +90,22 @@ const App = () => {
       },
     };
 
-    // Add a class to the body during PDF generation
     document.body.classList.add("generating-pdf");
 
     try {
+      // ✅ Track resume download event
+      ReactGA.event({
+        category: "Resume",
+        action: "Downloaded PDF",
+        label: fileName,
+      });
+
       const pdf = await html2pdf()
         .set(opt)
         .from(element)
         .toPdf()
         .output("bloburl");
+
       const link = document.createElement("a");
       link.href = pdf;
       link.download = fileName;
